@@ -26,12 +26,6 @@ options = Options()
 options.headless = True
 driver = webdriver.Firefox(service=Service(GeckoDriverManager().install()), options=options)
 
-# reddit = praw.Reddit(
-#     client_id="SzUISScjtzaVzKhFfHtSjg",
-#     client_secret="S8gobzzkLNZiHtDXs223UxWqolG3Zw",
-#     user_agent="nearReddit python"
-# )
-
 #NOTE: Skipped for now as utility not that important
 
 def get_club_and_score(raw_text: str) -> list:
@@ -95,6 +89,11 @@ def get_video_link(url:str) -> str:
     return tag.attrs['src']
 
 def get_video_link_selenium(url: str) -> str:
+    """
+    Function that gets video link from url using Selenium.
+
+    Parameters and Return same as `get_video_link`
+    """
     driver.get(url)
     soup = BeautifulSoup(driver.page_source, 'lxml')
     tag = soup.find('video')
@@ -130,6 +129,7 @@ def get_submissions(limit: int = 5) -> list:
     end = timer()
     print(end - start)
     return result
+
 
 
 
