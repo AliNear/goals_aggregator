@@ -1,4 +1,5 @@
 import configparser
+from dataclasses import dataclass
 import praw
 import requests
 
@@ -14,6 +15,7 @@ from timeit import default_timer as timer
 config = configparser.ConfigParser()
 config.read('config.ini')
 credentials = config['REDDIT_CRED']
+
 
 
 reddit = praw.Reddit(
@@ -131,8 +133,20 @@ def get_submissions(limit: int = 5) -> list:
     return result
 
 
+@dataclass
+class Goal:
+    link: str = ""
+    description: str = ""
 
 
+def get_goals_scored():
+    subs = get_submissions(limit=10) #Shouldn't be hardcoded
+    # Need to check if title of subs[0] is in the database
+    goals = []
+    if len(subs) != 0:
+        for sub in subs:
+            link = get_video_link(sub.url)
+            goals.append(Goal(link=link, description=sub.title))
 
-
+    return goals
 
